@@ -4,7 +4,7 @@ from data.config import ADMINS
 from loader import dp, db, bot
 import pandas as pd
 
-@dp.message_handler(text="/allusers", user_id=ADMINS)
+@dp.message_handler(text="/allusers", user_id=ADMINS, state='*')
 async def get_all_users(message: types.Message):
     users = db.select_all_users()
     id = []
@@ -25,15 +25,19 @@ async def get_all_users(message: types.Message):
        await bot.send_message(message.chat.id, df)
        
 
-@dp.message_handler(text="/reklama", user_id=ADMINS)
+@dp.message_handler(text="/reklama", user_id=ADMINS, state='*')
 async def send_ad_to_all(message: types.Message):
     users = db.select_all_users()
     for user in users:
-        user_id = user[0]
-        await bot.send_message(chat_id=user_id, text="@BekoDev kanaliga obuna bo'ling!")
-        await asyncio.sleep(0.05)
+        try:
+            user_id = user[0]
+            await bot.send_message(chat_id=user_id, text="Subscribe for @BekoDev channel!")
+            await asyncio.sleep(0.05)
+        except Exception as error:
+            print(error)
+            continue
 
-@dp.message_handler(text="/cleandb", user_id=ADMINS)
+@dp.message_handler(text="/cleandb", user_id=ADMINS, state='*')
 async def get_all_users(message: types.Message):
     db.delete_users()
-    await message.answer("Baza tozalandi!")
+    await message.answer("Database cleaned successfully!")

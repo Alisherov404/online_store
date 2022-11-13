@@ -1,9 +1,9 @@
 from environs import Env
 
-# environs kutubxonasidan foydalanish
+# use environs library
 env = Env()
 env.read_env()
 
-# .env fayl ichidan quyidagilarni o'qiymiz
+# Read from .env file
 BOT_TOKEN = env.str("BOT_TOKEN")  # Bot toekn
 ADMINS = env.list("ADMINS")  # adminlar ro'yxati
